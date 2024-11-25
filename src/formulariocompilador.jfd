@@ -1,0 +1,146 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.4" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {par l:::p {seq l {space :p:99:p, comp label2:::p::p, space :::x, comp label3:::p::p, space :p:86:p}, seq {par l {seq {space :::p, par l:::p {seq l {comp Analizarlexico:::p::p, space :::x, comp Limpiarlexico:::p:103:p}, comp scrollPane2:::p:335:p}, space :::p, comp splitPane2:::p:13:p, par l {seq {comp Analizarsintactico:::p:100:p, space :p:125:p, comp Limpiarsintactico:::p:103:p}, comp scrollPane3:::p:328:p}}, seq {space :p:53:p, comp label7:::p:393:p}}, space :::p}}, par l {seq l {comp scrollPane1:::::x, space :::p}, seq l {par l:::p {seq {comp splitPane3:::p:12:p, space :::p, par t:::p {seq {comp Analizarsemantico:::p::p, space :::x, comp Limpiarsemantico:::p::p}, comp scrollPane4:::p:318:p}, space :::p, comp splitPane1:::p:12:p, space s:::p, par l:::p {seq {comp scrollPane5:::p:338:p, space u:::p, comp separator1:::p::p}, seq {comp Generarintermedio:::p::p, space :::x, comp Limpiarintermedio:::p::p, space :p:12:p}}}, seq l {space :p:96:p, comp label4:::p::p, space :::x, comp label5:::p::p, space :p:35:p}}, par l {seq {par l:::p {comp scrollPane6:::p:310:p, seq {comp Parsertree:::p::p, space :::x, comp Limpiartree:::p::p}}, space :0:42:x}, seq l {space :p:106:p, comp label6:::p::p, space ::147:x}}}, seq {space ::525:x, comp label1:::p::p, space :p:391:p}}}}"
+			"$verticalGroup": "par l {seq {space :::p, par l {seq {comp label1:::p:35:p, space u:::p, comp scrollPane1:::p:242:p}, comp label7:::p:199:p}, space ::37:x, par l {seq t {par t {comp label2:::p::p, comp label3::t:p::p, comp label4::t:p::p}, space u:::p, par l:::p {comp splitPane3::t:p:343:p, comp splitPane2::t:p:343:p, seq {par l {seq t {space :0:0:x, par b {comp Analizarsintactico::b:p::p, comp Limpiarsintactico::b:p::p}}, seq t {comp scrollPane2:::::x, space :::p, par b {comp Analizarlexico::b:p::p, comp Limpiarlexico::b:::x}}, seq {par l {seq {comp scrollPane4:::p:298:p, space :::p, par l:::p {comp Limpiarsemantico:::::x, comp Analizarsemantico:::::x}}, comp scrollPane3:::p:294:p}, space :0:0:x}}, space :::p}}}, comp splitPane1::t:p:343:p, seq {par t {comp label5:::p::p, comp label6:::p::p}, space u:::p, par l {seq t {comp separator1:::p:256:p, space :p:18:p}, seq t {par t {comp scrollPane6::t:p:298:p, comp scrollPane5:::p:298:p}, space :::p}}, par b {comp Parsertree::b:p::p, comp Limpiartree::b:p::p, comp Limpiarintermedio::b:p::p, comp Generarintermedio::b:::x}, space :::p}}}}"
+		} ) {
+			name: "this"
+			"font": new java.awt.Font( "Times New Roman", 0, 18 )
+			"title": "CompiladorAmarante"
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "entradatexto"
+					"border": new javax.swing.border.CompoundBorder( new javax.swing.plaf.basic.BasicBorders$MarginBorder, null )
+					"cursor": new java.awt.Cursor( 0 )
+					"caretColor": new java.awt.Color( 255, 51, 51, 255 )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane2"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "lexico"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Analizarlexico"
+				"text": "Analizar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "Analizarlexico", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Limpiarlexico"
+				"text": "Limpiar"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Analizarsintactico"
+				"text": "Analizar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "Analizarsintactico", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Limpiarsintactico"
+				"text": "Limpiar"
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "splitPane1"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane3"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "sintactico"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "splitPane2"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane4"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "semantico"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Analizarsemantico"
+				"text": "Analizar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "Analizarsemantico", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Limpiarsemantico"
+				"text": "Limpiar"
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "splitPane3"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane5"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "codigointermedio"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Generarintermedio"
+				"text": "Analizar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "Generarintermedio", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Limpiarintermedio"
+				"text": "Limpiar"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "Insertar el codigo "
+				"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+				"font": new java.awt.Font( "Times New Roman", 1, 20 )
+			} )
+			add( new FormComponent( "javax.swing.JSeparator" ) {
+				name: "separator1"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane6"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "generararbol"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "Analizador lexico"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "Analizador sintactico"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label4"
+				"text": "Analizador semantico"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label5"
+				"text": "Generador de codigo intermedio"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label6"
+				"text": "Arbol parser"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Parsertree"
+				"text": "Analizar"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "Parsertree", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "Limpiartree"
+				"text": "Limpiar"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label7"
+				"text": "Compilador Amarante"
+				"font": new java.awt.Font( "Inter", 0, 36 )
+				"border": new javax.swing.border.TitledBorder( "text" )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 20, 10 )
+			"size": new java.awt.Dimension( 1180, 510 )
+		} )
+	}
+}
