@@ -30,10 +30,13 @@ public class SemanticAnalyzerListener extends AmaranteBaseListener {
         // Si Identificador no es null, extrae su texto
         String variableName = ctx.Identificador().getText();
 
+        String variableValue=ctx.Numero().getText();
+
         if (variableType == null) {
             outputArea.append("Error: Falta el tipo de dato para la variable '" + variableName + "'.\n");
             return;
         }
+
 
         // Verifica si el nombre de la variable es válido
         if (!isValidVariableName(variableName)) {
@@ -45,10 +48,15 @@ public class SemanticAnalyzerListener extends AmaranteBaseListener {
         if (symbolTable.isVariableDefined(variableName)) {
             outputArea.append("Error: La variable '" + variableName + "' ya ha sido declarada.\n");
         } else {
-            symbolTable.addVariable(variableName, variableType);
-            outputArea.append("Variable '" + variableName + "' de tipo '" + variableType + "' declarada correctamente.\n");
+
+
+
+            symbolTable.addVariable(variableName, variableType, variableValue);
+            outputArea.append("Variable '" + variableName + "' de tipo '" + variableType + variableValue +  "' declarada correctamente.\n");
         }
+
     }
+
 
     @Override
     public void enterSentencia(AmaranteParser.SentenciaContext ctx) {

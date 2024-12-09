@@ -1,5 +1,6 @@
 
 public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
+    private final SymbolTable symbolTable = new SymbolTable();
 
     @Override
     public String visitPrograma(AmaranteParser.ProgramaContext ctx) {
@@ -42,7 +43,9 @@ public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
             return visit(ctx.for_stmt());
         } else if (ctx.print_stmt() != null) {
             return visit(ctx.print_stmt());
-        } else {
+        }
+
+        else {
             // Aquí podrías manejar otros tipos de sentencias
             return "";
         }
@@ -58,13 +61,21 @@ public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
             tipo = "let";  // Convertimos String a let
         }
 
-        if (ctx.Igual() != null) {  // Si hay asignación
-            if (ctx.Numero() != null) {  // Asignación de número
-                String valor = ctx.Numero().getText();
+        if (ctx.Igual() != null) {
+            if (ctx.expr_aritmetica() != null) {
+                String valor = visit(ctx.expr_aritmetica());
+                symbolTable.addVariable(nombre, tipo, valor);
+                return tipo + " " + nombre + " = " + valor + ";";
+            }
+            // Si hay asignación
+            else if (ctx.Numero() != null) {  // Asignación de número
+                int valor = Integer.parseInt(ctx.Numero().getText());
+                symbolTable.addVariable(nombre, tipo, valor);
                 return tipo + " " + nombre + " = " + valor + ";";
             } else if (ctx.Cadena() != null) {  // Asignación de cadena
                 String valor = ctx.Cadena().getText();
-                valor = valor.substring(1, valor.length() - 1);  // Eliminar comillas
+                valor = valor.substring(1, valor.length() - 1);
+                symbolTable.addVariable(nombre, tipo, valor); // Eliminar comillas
                 return tipo + " " + nombre + " = \"" + valor + "\";";
             }
         } else {
@@ -169,6 +180,9 @@ public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
         return nombre + " = " + valor + ";";
     }
 
+
+
+
     @Override
     public String visitPrint_stmt(AmaranteParser.Print_stmtContext ctx) {
         // Verifica si el 'print' es una cadena
@@ -183,6 +197,12 @@ public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
             System.out.println("Generando código para imprimir variable: " + ctx.Identificador().getText());  // Depuración
             return "console.log(" + ctx.Identificador().getText() + ");";  // Genera console.log con el nombre de la variable
         }
+        else if (ctx.expr_aritmetica() != null) {
+            String expr = visit(ctx.expr_aritmetica());  // Obtiene la expresión aritmética dentro de print
+            System.out.println("Generando código para imprimir expresión aritmética: " + expr);  // Depuración
+            return "console.log(" + expr + ");";  // Genera console.log con la expresión aritmética
+        }
+
         // Si el 'print' es una expresión booleana
         else {
             String expr = visit(ctx.expr_boleana());  // Obtiene la expresión dentro de print
@@ -190,6 +210,86 @@ public class CodeGenerationVisitor extends AmaranteBaseVisitor<String> {
             return "console.log(" + expr + ");";  // Genera console.log con la expresión
         }
     }
+
+
+    @Override
+    public String visitExpr_aritmetica(AmaranteParser.Expr_aritmeticaContext ctx) {
+        // Si la operación es una suma
+        if (ctx.Suma() != null) {
+            String left = visit(ctx.expr_aritmetica());  // Lado izquierdo de la suma
+            String right = visit(ctx.expr_aritmetica_b());  // Lado derecho de la suma
+            // Evaluamos si son variables y calculamos el resultado
+            return evaluateExpression(left, right, "+");
+        }
+        // Si la operación es una resta
+        else if (ctx.Resta() != null) {
+            String left = visit(ctx.expr_aritmetica());
+            String right = visit(ctx.expr_aritmetica_b());
+            return evaluateExpression(left, right, "-");
+        }
+        return "";
+    }
+
+    @Override
+    public String visitExpr_aritmetica_b(AmaranteParser.Expr_aritmetica_bContext ctx) {
+        // `expr_aritmetica_b` maneja multiplicación y división
+        if (ctx.Multiplicacion() != null) { // Si la operación es una multiplicación
+            String left = visit(ctx.expr_aritmetica_b());  // Lado izquierdo
+            String right = visit(ctx.expr_aritmetica_c());  // Lado derecho
+            return left + " * " + right;
+        } else if (ctx.Division() != null) { // Si la operación es una división
+            String left = visit(ctx.expr_aritmetica_b());
+            String right = visit(ctx.expr_aritmetica_c());
+            return left + " / " + right;
+        } else {
+            // Si no hay multiplicación o división, delegamos a `expr_aritmetica_c`
+            return visit(ctx.expr_aritmetica_c());
+        }
+    }
+
+    public String visitExpr_aritmetica_c(AmaranteParser.Expr_aritmetica_cContext ctx) {
+        // `expr_aritmetica_c` maneja operandos y expresiones entre paréntesis
+        if (ctx.Numero() != null) {  // Si es un número
+            return ctx.Numero().getText();  // Retornamos el número como está
+        } else if (ctx.Identificador() != null) {  // Si es un identificador (variable)
+            return ctx.Identificador().getText();  // Retornamos el nombre de la variable
+        } else if (ctx.Parentesis_a() != null) {  // Si es una expresión entre paréntesis
+            return "(" + visit(ctx.expr_aritmetica()) + ")";  // Evaluamos la expresión dentro
+        }
+        return "";  // Caso por defecto
+    }
+    private String evaluateExpression(String left, String right, String operator) {
+        // Verifica si las expresiones son variables y obtiene sus valores de la tabla de símbolos
+        if (isVariable(left) && isVariable(right)) {
+            String leftValue = getVariableValue(left);
+            String rightValue = getVariableValue(right);
+            return leftValue + " " + operator + " " + rightValue;
+        } else if (isVariable(left)) {
+            String leftValue = getVariableValue(left);
+            return leftValue + " " + operator + " " + right;
+        } else if (isVariable(right)) {
+            String rightValue = getVariableValue(right);
+            return left + " " + operator + " " + rightValue;
+        }
+        return " " + left + " " + operator + " " + right;  // Si no son variables, realizamos la operación directamente
+    }
+
+    // Verifica si el valor es una variable
+    private boolean isVariable(String value) {
+        return symbolTable.isVariableDefined(value);
+    }
+
+    private String getVariableValue(String variable) {
+        Object value = symbolTable.getVariableValue(variable);
+        if (value != null) {
+            return value.toString();
+        }
+        return "undefined";  // Retorna "undefined" si la variable no está definida
+    }
+
+
+
+
 
 }
 

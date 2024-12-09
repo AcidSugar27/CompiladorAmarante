@@ -58,12 +58,14 @@ sentencia: declaracion
 
 print_stmt: PRINT Parentesis_a expr_boleana Parentesis_c P_coma
           | PRINT Parentesis_a Cadena Parentesis_c P_coma
-          | PRINT Parentesis_a Identificador Parentesis_c P_coma;
+          | PRINT Parentesis_a Identificador Parentesis_c P_coma
+          | PRINT Parentesis_a expr_aritmetica Parentesis_c P_coma;
 
 
 declaracion: (T_dato Identificador P_coma)
            | (T_dato Identificador Igual Numero P_coma)
-           | (T_dato Identificador Igual Cadena P_coma);
+           | (T_dato Identificador Igual Cadena P_coma)
+           | (T_dato Identificador Igual expr_aritmetica P_coma);
 
 if_stmt: If Parentesis_a expr_boleana Parentesis_c Llave_a sentencias Llave_c;
 
@@ -87,7 +89,27 @@ expr_boleana: Identificador Op_relacional Numero
 
 
 expr_stmt: Identificador Op_atribucion Numero P_coma
-         | Identificador Op_atribucion Cadena P_coma;
+         | Identificador Op_atribucion Cadena P_coma
+         | Identificador Op_atribucion expr_aritmetica P_coma;
+
+expr_aritmetica: expr_aritmetica Suma expr_aritmetica_b
+               | expr_aritmetica Resta expr_aritmetica_b
+               | expr_aritmetica_b
+               ;
+
+expr_aritmetica_b: expr_aritmetica_b Multiplicacion expr_aritmetica_c
+                 | expr_aritmetica_b Division expr_aritmetica_c
+                 | expr_aritmetica_c
+                 ;
+
+expr_aritmetica_c: Parentesis_a expr_aritmetica Parentesis_c
+                 | Numero
+                 | Identificador
+                 ;
+
+
+
+
 
 
 
